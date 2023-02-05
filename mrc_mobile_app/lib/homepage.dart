@@ -85,26 +85,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         defaultRenderer:
                             charts.LineRendererConfig(includeArea: true),
                       )
-                    : charts.BarChart(
+                    : charts.LineChart(
                         [
-                          // charts.Series<WaterDataPoint, int>(
-                          //   id: 'Water Level',
-                          //   colorFn: (_, __) =>
-                          //       charts.MaterialPalette.red.shadeDefault,
-                          //   data: _data
-                          //       .map((point) =>
-                          //           charts.SeriesDatum(point.time, point.level))
-                          //       .toList(),
-                          //   domainFn: (charts.SeriesDatum point, _) =>
-                          //       point.domain,
-                          //   measureFn: (charts.SeriesDatum point, _) =>
-                          //       point.measure,
-                          // ),
+                          charts.Series<WaterDataPoint, int>(
+                            id: 'Water Level',
+                            colorFn: (_, __) =>
+                                charts.MaterialPalette.red.shadeDefault,
+                            data: _data,
+                            domainFn: (WaterDataPoint dataPoint, _) =>
+                                dataPoint.time,
+                            measureFn: (WaterDataPoint dataPoint, _) =>
+                                dataPoint.level,
+                          ),
                         ],
                         animate: true,
-                        barRendererDecorator: charts.BarLabelDecorator<int>(
-                          labelPosition: charts.BarLabelPosition.outside,
-                        ),
                       )),
             const SizedBox(height: 20),
             Button(
