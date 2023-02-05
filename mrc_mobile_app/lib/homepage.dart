@@ -3,7 +3,6 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:mrc_mobile_app/Funtions/button.dart';
 import 'package:mrc_mobile_app/message_page.dart';
 import 'Funtions/message_card1.dart';
-import 'Funtions/messege_card.dart';
 import 'providers/water_data_provider.dart';
 
 void main() => runApp(const Homepage());
@@ -33,12 +32,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<WaterDataPoint> _data = [
-    WaterDataPoint(0, 10, 'Kandal'),
+    WaterDataPoint(0, 0, 'Kandal'),
     WaterDataPoint(1, 20, 'Kandal'),
     WaterDataPoint(2, 10, 'Kandal'),
     WaterDataPoint(3, 40, 'kandal'),
     WaterDataPoint(4, 10, 'Kandal'),
-    WaterDataPoint(5, 60, 'Kandal'),
+    WaterDataPoint(5, 10, 'Kandal'),
+    WaterDataPoint(6, 80, 'kandal'),
+    WaterDataPoint(7, 100, 'Kandal'),
   ];
   bool _isLineChart = true;
 
@@ -67,39 +68,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 14)),
             SizedBox(
                 height: 300,
-                child: _isLineChart
-                    ? charts.LineChart(
-                        [
-                          charts.Series<WaterDataPoint, int>(
-                            id: 'Water Level',
-                            colorFn: (_, __) =>
-                                charts.MaterialPalette.red.shadeDefault,
-                            data: _data,
-                            domainFn: (WaterDataPoint dataPoint, _) =>
-                                dataPoint.time,
-                            measureFn: (WaterDataPoint dataPoint, _) =>
-                                dataPoint.level,
-                          ),
-                        ],
-                        animate: true,
-                        defaultRenderer:
-                            charts.LineRendererConfig(includeArea: true),
-                      )
-                    : charts.LineChart(
-                        [
-                          charts.Series<WaterDataPoint, int>(
-                            id: 'Water Level',
-                            colorFn: (_, __) =>
-                                charts.MaterialPalette.red.shadeDefault,
-                            data: _data,
-                            domainFn: (WaterDataPoint dataPoint, _) =>
-                                dataPoint.time,
-                            measureFn: (WaterDataPoint dataPoint, _) =>
-                                dataPoint.level,
-                          ),
-                        ],
-                        animate: true,
-                      )),
+                child: charts.LineChart(
+                  [
+                    charts.Series<WaterDataPoint, int>(
+                      id: 'Water Level',
+                      colorFn: (_, __) => charts.MaterialPalette.black,
+                      data: _data,
+                      domainFn: (WaterDataPoint dataPoint, _) => dataPoint.time,
+                      measureFn: (WaterDataPoint dataPoint, _) =>
+                          dataPoint.level,
+                    ),
+                  ],
+                  animate: true,
+                  defaultRenderer: charts.LineRendererConfig(includeArea: true),
+                )),
             const SizedBox(height: 20),
             Button(
               onPressed: () {
@@ -108,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               label: 'Bar Chart',
-              child: const Text('Change to Bar Chart'),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
