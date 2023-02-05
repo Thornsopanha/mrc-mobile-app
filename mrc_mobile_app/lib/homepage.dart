@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:mrc_mobile_app/Funtions/button.dart';
+import 'package:mrc_mobile_app/mrc_bar_chart.dart';
 import 'package:mrc_mobile_app/message_page.dart';
 import 'Funtions/message_card1.dart';
 import 'providers/water_data_provider.dart';
@@ -61,27 +62,15 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            const Text('Water Level Trend',
-                style: TextStyle(
-                    color: Color.fromARGB(174, 255, 2, 2),
-                    fontFamily: 'CADTMonoDisplay',
-                    fontSize: 14)),
-            SizedBox(
-                height: 300,
-                child: charts.LineChart(
-                  [
-                    charts.Series<WaterDataPoint, int>(
-                      id: 'Water Level',
-                      colorFn: (_, __) => charts.MaterialPalette.black,
-                      data: _data,
-                      domainFn: (WaterDataPoint dataPoint, _) => dataPoint.time,
-                      measureFn: (WaterDataPoint dataPoint, _) =>
-                          dataPoint.level,
-                    ),
-                  ],
-                  animate: true,
-                  defaultRenderer: charts.LineRendererConfig(includeArea: true),
-                )),
+            const Text(
+              'Water Level Trend',
+              style: TextStyle(
+                color: Color.fromARGB(174, 255, 2, 2),
+                fontFamily: 'CADTMonoDisplay',
+                fontSize: 14,
+              ),
+            ),
+            buildChart(),
             const SizedBox(height: 20),
             Button(
               onPressed: () {
@@ -100,16 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   'Province: ${_data.last.province}',
                   style: const TextStyle(
-                      color: Color.fromARGB(255, 9, 14, 54),
-                      fontFamily: 'CADTMonoDisplay',
-                      fontSize: 12),
+                      color: Color.fromARGB(255, 9, 14, 54), fontFamily: 'CADTMonoDisplay', fontSize: 12),
                 ),
                 const Text('/'),
                 Text('Water Height: ${_data.last.level} M',
-                    style: const TextStyle(
-                        color: Colors.red,
-                        fontFamily: 'CADTMonoDisplay',
-                        fontSize: 12)),
+                    style: const TextStyle(color: Colors.red, fontFamily: 'CADTMonoDisplay', fontSize: 12)),
               ],
             ),
             MessageCard1(
@@ -164,6 +148,57 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       // ... other widgets ...
+    );
+  }
+
+  Widget buildVisibility({
+    required bool visible,
+    required Widget child,
+  }) {
+    return Visibility(
+      visible: visible,
+      child: TweenAnimationBuilder<int>(
+        duration: const Duration(milliseconds: 250),
+        tween: IntTween(begin: 0, end: 1),
+        child: child,
+        builder: (context, value, child) {
+          return AnimatedOpacity(
+            opacity: value == 1 ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 250),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildChart() {
+    return SizedBox(
+      height: 300,
+      child: Stack(
+        children: [
+          buildVisibility(
+            visible: !_isLineChart,
+            child: MrcBarChart(data: _data),
+          ),
+          buildVisibility(
+            visible: _isLineChart,
+            child: charts.LineChart(
+              [
+                charts.Series<WaterDataPoint, int>(
+                  id: 'Water Level',
+                  colorFn: (_, __) => charts.MaterialPalette.black,
+                  data: _data,
+                  domainFn: (WaterDataPoint dataPoint, _) => dataPoint.time,
+                  measureFn: (WaterDataPoint dataPoint, _) => dataPoint.level,
+                ),
+              ],
+              animate: true,
+              defaultRenderer: charts.LineRendererConfig(includeArea: true),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

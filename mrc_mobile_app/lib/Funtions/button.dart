@@ -4,10 +4,11 @@ class Button extends StatelessWidget {
   const Button({
     Key? key,
     this.label = "Label",
-    required Null Function() onPressed,
+    required this.onPressed,
   }) : super(key: key);
 
   final String label;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,9 @@ class Button extends StatelessWidget {
       height: 40,
       width: 150,
       child: ElevatedButton(
-        onPressed: () {}, // pass the onPressed callback here
+        onPressed: onPressed,
         style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ))),
         child: Text(

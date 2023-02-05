@@ -9,9 +9,9 @@ class MessagePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 163, 7, 7),
-          title: const Row(
+          title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Text("Message"),
               Spacer(),
               Icon(
