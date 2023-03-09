@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MessageCard extends StatelessWidget {
   final String location;
@@ -32,10 +33,9 @@ class MessageCard extends StatelessWidget {
         children: <Widget>[
           Text(
             "Location: $location",
-            style: const TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              fontFamily: 'CADTMonoDisplay',
               color: Color.fromARGB(255, 6, 18, 67),
             ),
           ),

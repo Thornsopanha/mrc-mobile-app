@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Button extends StatelessWidget {
   const Button({
@@ -18,12 +19,15 @@ class Button extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ))),
         child: Text(
           label,
-          style: const TextStyle(fontFamily: 'CADTMonoDisplay'),
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+          ),
         ),
       ),
     );

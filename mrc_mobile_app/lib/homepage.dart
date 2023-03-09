@@ -5,8 +5,11 @@ import 'package:mrc_mobile_app/mrc_bar_chart.dart';
 import 'package:mrc_mobile_app/message_page.dart';
 import 'Funtions/message_card1.dart';
 import 'providers/water_data_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 void main() => runApp(const Homepage());
+
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -48,12 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Water Monitoring',
-          style: TextStyle(
-            fontFamily: 'CADTMonoDisplay',
-            color: Color.fromARGB(255, 10, 39, 62),
-            fontSize: 20,
+        title: Center(
+          child: Text(
+            'Water Monitoring',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 10, 39, 62),
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
         backgroundColor: Colors.white,
@@ -62,12 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            const Text(
+            Text(
               'Water Level Trend',
-              style: TextStyle(
-                color: Color.fromARGB(174, 255, 2, 2),
-                fontFamily: 'CADTMonoDisplay',
-                fontSize: 14,
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  color: Color.fromARGB(174, 255, 2, 2),
+                  fontSize: 14,
+                ),
               ),
             ),
             buildChart(),
@@ -88,12 +96,21 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   'Province: ${_data.last.province}',
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 9, 14, 54), fontFamily: 'CADTMonoDisplay', fontSize: 12),
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      color: Color.fromARGB(255, 9, 14, 54),
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const Text('/'),
                 Text('Water Height: ${_data.last.level} M',
-                    style: const TextStyle(color: Colors.red, fontFamily: 'CADTMonoDisplay', fontSize: 12)),
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                      color: Color.fromARGB(255, 209, 10, 10),
+                    ))),
               ],
             ),
             MessageCard1(
