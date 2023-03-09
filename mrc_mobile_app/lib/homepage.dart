@@ -17,6 +17,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Water Monitoring',
       theme: ThemeData(
         primarySwatch: Colors.blue,
