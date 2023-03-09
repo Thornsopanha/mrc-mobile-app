@@ -3,13 +3,13 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:mrc_mobile_app/Funtions/button.dart';
 import 'package:mrc_mobile_app/mrc_bar_chart.dart';
 import 'package:mrc_mobile_app/message_page.dart';
+import 'package:mrc_mobile_app/services/api_service.dart';
 import 'Funtions/message_card1.dart';
 import 'providers/water_data_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 void main() => runApp(const Homepage());
-
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -36,17 +36,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<WaterDataPoint> _data = [
-    WaterDataPoint(0, 0, 'Kandal'),
-    WaterDataPoint(1, 20, 'Kandal'),
-    WaterDataPoint(2, 10, 'Kandal'),
-    WaterDataPoint(3, 40, 'kandal'),
-    WaterDataPoint(4, 10, 'Kandal'),
-    WaterDataPoint(5, 10, 'Kandal'),
-    WaterDataPoint(6, 80, 'kandal'),
-    WaterDataPoint(7, 100, 'Kandal'),
-  ];
+  List<WaterDataPoint> _data = [];
   bool _isLineChart = true;
+
+  @override
+  void initState() {
+    ApiService.fetchAll().then((value) {
+      setState(() {
+        _data = value!;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,32 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Province: ${_data.last.province}',
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      color: Color.fromARGB(255, 9, 14, 54),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                const Text('/'),
-                Text('Water Height: ${_data.last.level} M',
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                      color: Color.fromARGB(255, 209, 10, 10),
-                    ))),
-              ],
-            ),
-            MessageCard1(
-              title: "Water Level Alert",
-              content: "Current water level: ${_data.last.level} M ",
-            ),
+            if (_data.isNotEmpty) buildInfos(),
+            if (_data.isNotEmpty)
+              MessageCard1(
+                title: "Water Level Alert",
+                content: "Current water level: ${_data.last.level} M ",
+              ),
           ],
         ),
       ),
@@ -166,6 +147,31 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       // ... other widgets ...
+    );
+  }
+
+  Row buildInfos() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          'Province: ${_data.last.province}',
+          style: GoogleFonts.poppins(
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 9, 14, 54),
+              fontSize: 14,
+            ),
+          ),
+        ),
+        const Text('/'),
+        Text('Water Height: ${_data.last.level} M',
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: Color.fromARGB(255, 209, 10, 10),
+            ))),
+      ],
     );
   }
 

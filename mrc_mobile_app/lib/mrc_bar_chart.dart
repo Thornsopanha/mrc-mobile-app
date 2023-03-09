@@ -18,7 +18,7 @@ class MrcBarChart extends StatelessWidget {
           id: 'Water Level',
           colorFn: (_, __) => MaterialPalette.black,
           data: data,
-          domainFn: (WaterDataPoint dataPoint, _) => dataPoint.time.toString(),
+          domainFn: (WaterDataPoint dataPoint, _) => dataPoint.date.toString(),
           measureFn: (WaterDataPoint dataPoint, _) => dataPoint.level,
         ),
       ],
