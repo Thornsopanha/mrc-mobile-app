@@ -17,6 +17,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Water Monitoring',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Province: ${_data.last.province}',
+                  'Location: ${_data.last.province}',
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       color: Color.fromARGB(255, 9, 14, 54),
