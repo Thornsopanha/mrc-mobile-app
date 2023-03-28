@@ -4,10 +4,10 @@ import 'package:mrc_mobile_app/Funtions/button.dart';
 import 'package:mrc_mobile_app/mrc_bar_chart.dart';
 import 'package:mrc_mobile_app/message_page.dart';
 import 'package:mrc_mobile_app/services/api_service.dart';
+import 'package:mrc_mobile_app/services/realtime_db_service.dart';
 import 'Funtions/message_card1.dart';
 import 'providers/water_data_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 void main() => runApp(const Homepage());
 
@@ -38,26 +38,48 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<WaterDataPoint> _data = [];
   bool _isLineChart = true;
+  bool loadFromCsv = false;
 
   @override
   void initState() {
-    ApiService.fetchAll().then((value) {
+    loadDataPoints();
+    super.initState();
+  }
+
+  Future<void> loadDataPoints() async {
+    final loader =
+        loadFromCsv ? ApiService.fetchAll() : RealtimeDbService().fetch();
+    return loader.then((value) {
       setState(() {
         _data = value!;
       });
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.table_chart_outlined,
+              color: loadFromCsv
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface,
+            ),
+            onPressed: () {
+              setState(() {
+                loadFromCsv = !loadFromCsv;
+              });
+            },
+          ),
+        ],
         title: Center(
           child: Text(
             'Water Monitoring',
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 10, 39, 62),
                 fontSize: 20,
@@ -67,14 +89,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
+      body: RefreshIndicator(
+        onRefresh: () => loadDataPoints(),
+        child: ListView(
+          padding: const EdgeInsets.all(20.0),
           children: <Widget>[
             Text(
               'Water Level Trend',
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   color: Color.fromARGB(174, 255, 2, 2),
                   fontSize: 14,
                 ),
@@ -166,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
         const Text('/'),
         Text('Water Height: ${_data.last.level} M',
             style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
               color: Color.fromARGB(255, 209, 10, 10),
