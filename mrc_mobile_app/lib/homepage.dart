@@ -5,6 +5,7 @@ import 'package:mrc_mobile_app/mrc_bar_chart.dart';
 import 'package:mrc_mobile_app/message_page.dart';
 import 'package:mrc_mobile_app/services/api_service.dart';
 import 'package:mrc_mobile_app/services/realtime_db_service.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'Funtions/message_card1.dart';
 import 'providers/water_data_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -164,6 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context) => const MessagePage(),
                 ),
               );
+              break;
+            case 2:
+              launchUrlString('tel:010252624');
               break;
             // ... handle navigation for other pages ...
           }
