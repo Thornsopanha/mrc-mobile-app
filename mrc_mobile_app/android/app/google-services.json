@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1005369372742",
+    "firebase_url": "https://mrcwaterlevel-default-rtdb.firebaseio.com",
+    "project_id": "mrcwaterlevel",
+    "storage_bucket": "mrcwaterlevel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005369372742:android:72a154d449f716a2431a47",
+        "android_client_info": {
+          "package_name": "com.example.mrc_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005369372742-ddetsgl2aj87i7r21g4dr1p84jk7a9bl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSPgW5RMDuWAplYLjs9JllGCKlr6laq_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005369372742-ddetsgl2aj87i7r21g4dr1p84jk7a9bl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
